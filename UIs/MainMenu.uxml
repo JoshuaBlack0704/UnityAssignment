@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="height: 100%; width: 100%; flex-direction: column; align-items: center;">
+        <ui:Button text="Enter" display-tooltip-when-elided="true" name="Assembler" style="width: 200px; height: 50px; top: 40%; left: 0; flex-wrap: wrap; flex-direction: column; align-items: center; justify-content: center; position: relative;" />
+        <ui:Label text="Main Menu" display-tooltip-when-elided="true" style="font-size: 40px;" />
+        <ui:Button text="Exit" display-tooltip-when-elided="true" name="Exit" style="top: 50%; left: 0; flex-wrap: wrap; flex-direction: column; align-items: center; justify-content: center; position: relative; height: 50px; width: 200px;" />
+    </ui:VisualElement>
+</ui:UXML>
