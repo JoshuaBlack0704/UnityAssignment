@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scenes/Assembler/menuButton.uss?fileID=7433441132597879392&amp;guid=70197138d06c21f5caff7b9199700db2&amp;type=3#menuButton" />
+    <Style src="project://database/Assets/Scenes/Assembler/ViewSetters.uss?fileID=7433441132597879392&amp;guid=df40a8ff17ab2a3f6842da9646f39ba1&amp;type=3#ViewSetters" />
+    <ui:VisualElement name="ControlsContainer" style="width: 100%; height: 100%; align-items: center; justify-content: flex-start; flex-direction: column-reverse; visibility: visible;">
+        <ui:VisualElement name="Border" class="View" style="width: 100%; height: 100%; align-items: center; flex-direction: row; justify-content: center;">
+            <ui:Button text="Next" display-tooltip-when-elided="true" name="Next" style="width: 25%; height: 10%; left: auto; right: 20%; bottom: auto; top: 40%;" />
+            <ui:VisualElement name="Divider" class="Divider" style="width: 5px; height: 100%; top: auto;" />
+            <ui:Button text="Menu" display-tooltip-when-elided="true" name="EnterSceneMenu" class="MenuButton" style="width: 25%; height: 25%; left: 20%; right: auto; top: 50%; overflow: hidden;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

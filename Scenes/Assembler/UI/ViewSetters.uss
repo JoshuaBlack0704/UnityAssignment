@@ -1,0 +1,10 @@
+.View{
+    border-width: 5px;
+    border-color: darkgray;
+}
+.Divider{
+    background-color: darkgray;
+}
+.ControlsSpace{
+    background-color: darkgray;
+}

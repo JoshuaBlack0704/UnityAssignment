@@ -1,0 +1,10 @@
+.MenuButton:hover{
+    background-image: resource("RisenAvatar");
+    position: relative;
+    top: 20%
+}
+.MenuButton{
+    background-image: resource("BaseAvatar");
+    position: relative;
+    top: 50%;
+}

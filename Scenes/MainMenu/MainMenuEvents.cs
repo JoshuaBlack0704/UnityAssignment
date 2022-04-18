@@ -10,24 +10,41 @@ public class MainMenuEvents : MonoBehaviour
 
     public Button enterAssembler;
     public Button exit;
+    public AudioSource clickSound;
     
     // Start is called before the first frame update
     void Start()
     {
+        clickSound = GameObject.Find("Clicker").GetComponent<AudioSource>();
         var root = GetComponent<UIDocument>().rootVisualElement;
         enterAssembler = root.Q<Button>("Assembler");
         enterAssembler.clicked += EnterAssembler;
         exit = root.Q<Button>("Exit");
         exit.clicked += Exit;
     }
-
+    
     void EnterAssembler()
     {
-        SceneManager.LoadScene("Scenes/Assembler");
+        StartCoroutine(Click("Scenes/Assembler/Assembler"));
     }
+    
     
     void Exit()
     {
+        StartCoroutine(Click());
+    }
+
+    IEnumerator Click(string name)
+    {
+        clickSound.PlayOneShot(clickSound.clip, 1);
+        yield return new WaitForSeconds(clickSound.clip.length);
+        SceneManager.LoadScene(name);
+    }
+    IEnumerator Click()
+    {
+        clickSound.PlayOneShot(clickSound.clip, 1);
+        yield return new WaitForSeconds(clickSound.clip.length);
         Application.Quit();
     }
+    
 }
