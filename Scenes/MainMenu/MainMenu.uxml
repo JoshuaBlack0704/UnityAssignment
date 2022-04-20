@@ -1,7 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement style="height: 100%; width: 100%; flex-direction: column; align-items: center;">
-        <ui:Button text="Start" display-tooltip-when-elided="true" name="Assembler" style="width: 200px; height: 50px; top: 40%; left: 0; flex-wrap: wrap; flex-direction: column; align-items: center; justify-content: center; position: relative;" />
-        <ui:Label text="Main Menu" display-tooltip-when-elided="true" style="font-size: 40px;" />
-        <ui:Button text="Exit" display-tooltip-when-elided="true" name="Exit" style="top: 50%; left: 0; flex-wrap: wrap; flex-direction: column; align-items: center; justify-content: center; position: relative; height: 50px; width: 200px;" />
+    <Style src="project://database/Assets/Scenes/Assembler/UI/menuButton.uss?fileID=7433441132597879392&amp;guid=70197138d06c21f5caff7b9199700db2&amp;type=3#menuButton" />
+    <ui:VisualElement name="Container" style="height: 100%; width: 100%; flex-direction: column; align-items: center; justify-content: flex-start; background-color: rgb(93, 96, 101);">
+        <ui:Label text="Swordsmith Simulator" display-tooltip-when-elided="true" name="Title" style="font-size: 50px; -unity-font: none; -unity-text-align: middle-center; width: 50%; height: 50%; color: rgba(255, 255, 255, 255);" />
+        <ui:Button text="Start" display-tooltip-when-elided="true" name="Assembler" class="SceneMenuButton" style="width: 25%; height: 20%; top: 0; left: 0; flex-wrap: wrap; flex-direction: column; align-items: center; justify-content: center; position: relative;" />
+        <ui:Button text="Exit" display-tooltip-when-elided="true" name="Exit" class="SceneMenuButton" style="top: 0; left: 0; flex-wrap: wrap; flex-direction: column; align-items: center; justify-content: center; position: relative; height: 20%; width: 25%;" />
+        <ui:Label text="By Joshua Black" display-tooltip-when-elided="true" style="right: auto; left: 40%; top: 5%;" />
     </ui:VisualElement>
 </ui:UXML>

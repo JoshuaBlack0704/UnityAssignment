@@ -1,10 +1,94 @@
-.MenuButton:hover{
-    background-image: resource("RisenAvatar");
-    position: relative;
-    top: 20%
+.Speaking {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: resource('ROBOPIXELHAPPY');
+    width: 20%;
+    height: 20%;
+    left: -10%;
+    top: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
 }
-.MenuButton{
-    background-image: resource("BaseAvatar");
-    position: relative;
-    top: 50%;
+
+.MenuButton {
+    width: 20%;
+    height: 20%;
+    left: -10%;
+    top: 8%;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    background-image: resource('ROBOPIXEL');
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.MenuButton:hover {
+    background-image: resource('ROBOPIXELHAPPY');
+    top: 0;
+}
+
+.unity-text-element {
+}
+
+.unity-button {
+}
+
+.Animation3 {
+    background-image: resource('ROBOPIXEL');
+    background-color: rgba(0, 0, 0, 0);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    width: 50%;
+    height: 50%;
+    top: -10%;
+    right: -10%;
+    rotate: 0.15rad;
+}
+
+.Animation2 {
+    background-image: resource('ROBOPIXEL');
+    background-color: rgba(0, 0, 0, 0);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    width: 50%;
+    height: 50%;
+    right: 10%;
+    top: -10%;
+    bottom: auto;
+    rotate: -0.15rad;
+}
+
+.Animation1 {
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    background-image: resource('ROBOPIXEL');
+    background-color: rgba(0, 0, 0, 0);
+    width: 50%;
+    height: 50%;
+    right: 0;
+    top: 0;
+}
+
+.SceneMenuButton {
+    width: 50%;
+    height: 15%;
+    background-color: rgb(127, 168, 212);
+    -unity-font: url('project://database/Library/unity%20default%20resources?fileID=10102&guid=0000000000000000e000000000000000&type=0#Arial');
+    color: rgb(255, 255, 255);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
 }

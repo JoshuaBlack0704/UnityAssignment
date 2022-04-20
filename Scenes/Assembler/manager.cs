@@ -15,11 +15,12 @@ public class manager : MonoBehaviour
     public AudioClip error;
     public AudioClip finalFanfare;
     public AudioClip congratsMessage;
+    public AudioClip tutorial;
     public bool isAI;
     public int currentPart = 0;
     public bool selected = false;
     public List<AudioClip> stepsAudioClips;
-    private AudioSource audioPlayer;
+    public GameObject phantom;
 
 
     private Camera playerCamera;
@@ -28,11 +29,16 @@ public class manager : MonoBehaviour
     private List<Quaternion> partRotations = new List<Quaternion>();
     private List<Vector3> partScales = new List<Vector3>();
 
+    //Audio States
+    private bool doClick = false;
+    private bool doError = false;
+    private bool doFinished = false;
+    private bool doStep = false;
+    
     // Start is called before the first frame update
     void Start()
     {
         playerCamera = GameObject.Find("Player Camera").GetComponent<Camera>();
-        audioPlayer = GetComponent<AudioSource>();
         foreach (Transform child in transform)
         {
             partPositions.Add(child.position);
@@ -42,6 +48,7 @@ public class manager : MonoBehaviour
             
         }
 
+        StartCoroutine(AudioManager());
         StartCoroutine(CommandWaitingParts());
         if (!isAI)
         {
@@ -106,10 +113,12 @@ public class manager : MonoBehaviour
                 GameObject part = parts[index];
                 Vector2 targetPos = new Vector2(partPositions[index].x, partPositions[index].y);
                 Vector2 partPos = new Vector2(part.transform.position.x, part.transform.position.y);
-                
+                GameObject phantomClone = Instantiate(phantom, partPositions[index], partRotations[index]);
                 
                 while (Input.GetMouseButton(0) && selected)
                 {
+                    phantomClone.transform.Rotate(Vector3.up, 45.0f * Time.deltaTime);
+                    phantomClone.transform.localScale = new Vector3(math.sin(Time.frameCount/100.0f),math.sin(Time.frameCount/100.0f),math.sin(Time.frameCount/100.0f)) / 5;
                     part.transform.localScale =
                         Vector3.Lerp(part.transform.localScale, partScales[index], 3.0f * Time.deltaTime);
                     var ray = playerCamera.ScreenPointToRay(Input.mousePosition);
@@ -129,13 +138,8 @@ public class manager : MonoBehaviour
                         part.transform.localScale = partScales[index];
                         selected = false;
                         placed = true;
-                        audioPlayer.PlayOneShot(click);
-                        yield return new WaitForSeconds(click.length);
-                        if (stepsAudioClips[index] != null)
-                        {
-                            audioPlayer.PlayOneShot(stepsAudioClips[index]);
-                            yield return new WaitForSeconds(stepsAudioClips[index].length);
-                        }
+                        doClick = true;
+                        doStep = true;
                     }
 
                     yield return null;
@@ -147,13 +151,16 @@ public class manager : MonoBehaviour
                     currentPart--;
                 }
                 
+                Destroy(phantomClone);
+                
             }
             
             
             yield return null;
         }
-        
-        StartCoroutine(CongratsAudio());
+
+        doStep = true;
+        doFinished = true;
     }
 
     IEnumerator CommandPlacedParts()
@@ -215,21 +222,73 @@ public class manager : MonoBehaviour
         }
     }
 
-    IEnumerator CongratsAudio()
+    IEnumerator AudioManager()
     {
-        audioPlayer.PlayOneShot(finalFanfare);
-        yield return new WaitForSeconds(finalFanfare.length);
-        audioPlayer.PlayOneShot(congratsMessage);
+        var audioPlayer = GetComponent<AudioSource>();
+        var avatar = GameObject.Find("Controls").GetComponent<UIDocument>().rootVisualElement
+            .Q<Button>("EnterSceneMenu");
+        
+        
+        if (!isAI)
+        {
+            avatar.ToggleInClassList("MenuButton");
+            audioPlayer.PlayOneShot(tutorial);
+            yield return new WaitForSeconds(tutorial.length);
+            avatar.ToggleInClassList("MenuButton");
+        }
+        while (true)
+        {
+            if (doClick)
+            {
+                audioPlayer.PlayOneShot(click, 2);
+                yield return new WaitForSeconds(click.length);
+                doClick = false;
+            }
+            if (doError)
+            {
+                audioPlayer.PlayOneShot(error);
+                yield return new WaitForSeconds(error.length);
+                doError = false;
+            }
+            if (doStep)
+            {
+                avatar.ToggleInClassList("MenuButton");
+                if (isAI)
+                {
+                    if (stepsAudioClips[currentPart - 1] != null)
+                    {
+                        audioPlayer.PlayOneShot(stepsAudioClips[currentPart-1]);
+                        yield return new WaitForSeconds(stepsAudioClips[currentPart - 1].length);
+                    }
+                }
+                else
+                {
+                    if (stepsAudioClips[currentPart-1] != null)
+                    {
+                        audioPlayer.PlayOneShot(stepsAudioClips[currentPart-1]);
+                        yield return new WaitForSeconds(stepsAudioClips[currentPart-1].length);
+                    }
+                }
+                avatar.ToggleInClassList("MenuButton");
+                doStep = false;
+            }   
+            if (doFinished)
+            {
+                audioPlayer.PlayOneShot(finalFanfare);
+                yield return new WaitForSeconds(finalFanfare.length);
+                audioPlayer.PlayOneShot(congratsMessage);
+                doFinished = false;
+            }
+               
+            yield return null;
+        }
     }
 
     public void AIIncreaseCurrentPart()
     {
         if (currentPart < parts.Count)
         {
-            if (stepsAudioClips[currentPart] != null)
-            {
-                audioPlayer.PlayOneShot(stepsAudioClips[currentPart]);
-            }
+            doStep = true;
             currentPart++;
         }
     }
@@ -248,12 +307,12 @@ public class manager : MonoBehaviour
                     var selectedPart = hit.transform.gameObject;
                     if (currentPart != parts.Count && selectedPart == parts[currentPart])
                     {
-                        audioPlayer.PlayOneShot(click);
+                        doClick = true;
                         selected = true;
                     }
                     else
                     {
-                        audioPlayer.PlayOneShot(error, .139f);
+                        doError = true;
                     }
                 }
             }

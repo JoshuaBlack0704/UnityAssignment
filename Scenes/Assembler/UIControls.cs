@@ -16,6 +16,7 @@ public class UIControls : MonoBehaviour
     private Button toMainMenu;
     private Button exit;
     private Button next;
+    private Button restart;
     private AudioSource audioPlayer;
     public AudioClip clickSound;
     
@@ -37,19 +38,16 @@ public class UIControls : MonoBehaviour
         next.clickable.clicked += Next;
         next.clickable.clicked += GameObject.Find("AIAssembly").GetComponent<manager>().AIIncreaseCurrentPart;
         audioPlayer = GetComponent<AudioSource>();
+        restart = SceneMenu.Q<Button>("Restart");
+        restart.clickable.clicked += Restart;
     }
 
-    void EnableNext()
-    {
-        next.style.display = DisplayStyle.Flex;
-    }
-    
     void EnterSceneMenu()
     {
         SceneMenu.style.display = DisplayStyle.Flex;
         Controls.style.display = DisplayStyle.None;
-       audioPlayer.PlayOneShot(clickSound);
-
+        audioPlayer.PlayOneShot(clickSound);
+        StartCoroutine(AnimateAvatar());
     }
 
     void Resume()
@@ -57,13 +55,43 @@ public class UIControls : MonoBehaviour
         SceneMenu.style.display = DisplayStyle.None;
         Controls.style.display = DisplayStyle.Flex;
         audioPlayer.PlayOneShot(clickSound);
+        StopCoroutine(AnimateAvatar());
     }
 
+    IEnumerator AnimateAvatar()
+    {
+        VisualElement avatar = SceneMenu.Q<VisualElement>("SceneMenuAvatar");
+        avatar.ToggleInClassList("Animation1");
+        avatar.ToggleInClassList("Animation2");
+        avatar.ToggleInClassList("Animation3");
+
+        while (true)
+        {
+            avatar.ToggleInClassList("Animation1");
+            yield return new WaitForSeconds(1);
+            avatar.ToggleInClassList("Animation1");
+            avatar.ToggleInClassList("Animation2");
+            yield return new WaitForSeconds(1);
+            avatar.ToggleInClassList("Animation2");
+            avatar.ToggleInClassList("Animation1");
+            yield return new WaitForSeconds(1);
+            avatar.ToggleInClassList("Animation1");
+            avatar.ToggleInClassList("Animation3");
+            yield return new WaitForSeconds(1);
+            avatar.ToggleInClassList("Animation3");
+        }
+    }
+    
     void ToMainMenu()
     {
         StartCoroutine(Click(0));
     }
 
+    void Restart()
+    {
+        StartCoroutine(Click(1));
+    }
+    
     void Exit()
     {
         StartCoroutine(Click(-1));
@@ -84,5 +112,8 @@ public class UIControls : MonoBehaviour
         }
         SceneManager.LoadScene(newScene);
     }
-    
+
+    private void Update()
+    {
+    }
 }

@@ -1,10 +1,14 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="SceneMenuContainer" style="width: 100%; height: 100%; flex-direction: row; align-items: center; justify-content: space-between; visibility: visible; opacity: 1; background-color: rgba(46, 46, 46, 255);">
-        <ui:VisualElement name="SceneMenu" style="width: 50%; height: 100%; visibility: visible; align-items: center; top: 0; left: auto; right: auto; flex-direction: column; justify-content: center;">
-            <ui:Button text="Back To Main Menu" display-tooltip-when-elided="true" name="BackToMainMenu" style="width: 100%; height: 25%;" />
-            <ui:Button text="Exit Game" display-tooltip-when-elided="true" name="Exit" style="height: 25%; width: 100%; top: 0;" />
-            <ui:Button text="Resume" display-tooltip-when-elided="true" name="Resume" enable-rich-text="true" style="width: 100%; height: 25%; top: 0;" />
+    <Style src="project://database/Assets/Scenes/Assembler/UI/menuButton.uss?fileID=7433441132597879392&amp;guid=70197138d06c21f5caff7b9199700db2&amp;type=3#menuButton" />
+    <ui:VisualElement name="SceneMenuContainer" style="width: 100%; height: 100%; flex-direction: row; align-items: center; justify-content: space-between; visibility: visible; opacity: 1; background-color: rgb(93, 96, 101);">
+        <ui:VisualElement name="SceneMenu" style="width: 50%; height: 100%; visibility: visible; align-items: center; top: 0; left: auto; right: auto; flex-direction: column; justify-content: space-around;">
+            <ui:Button text="Back To Main Menu" display-tooltip-when-elided="true" name="BackToMainMenu" class="SceneMenuButton" />
+            <ui:Button text="Resume" display-tooltip-when-elided="true" name="Resume" enable-rich-text="true" class="SceneMenuButton" />
+            <ui:Button text="Restart" display-tooltip-when-elided="true" name="Restart" class="SceneMenuButton" />
+            <ui:Button text="Exit Game" display-tooltip-when-elided="true" name="Exit" class="SceneMenuButton" />
         </ui:VisualElement>
-        <ui:VisualElement name="SceneMenuAvatar" style="top: 0; width: 50%; height: 100%;" />
+        <ui:VisualElement name="SceneMenuAvatarContainer" style="top: 0; width: 50%; height: 100%; right: 0; align-items: center; flex-direction: column; justify-content: center; background-color: rgba(0, 0, 0, 0); border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;">
+            <ui:VisualElement name="SceneMenuAvatar" class="Animation1 Animation2 Animation3" style="background-color: rgba(56, 56, 56, 0); border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); justify-content: center; width: 50%; height: 50%; background-image: resource(&apos;ROBOPIXEL&apos;);" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
