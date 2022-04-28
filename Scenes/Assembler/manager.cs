@@ -274,10 +274,13 @@ public class manager : MonoBehaviour
             }   
             if (doFinished)
             {
+                avatar.ToggleInClassList("MenuButton");
                 audioPlayer.PlayOneShot(finalFanfare);
                 yield return new WaitForSeconds(finalFanfare.length);
                 audioPlayer.PlayOneShot(congratsMessage);
+                yield return new WaitForSeconds(congratsMessage.length);
                 doFinished = false;
+                avatar.ToggleInClassList("MenuButton");
             }
                
             yield return null;
