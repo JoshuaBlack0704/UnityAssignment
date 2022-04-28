@@ -21,13 +21,15 @@ public class manager : MonoBehaviour
     public bool selected = false;
     public List<AudioClip> stepsAudioClips;
     public GameObject phantom;
-
-
-    private Camera playerCamera;
+    public Vector3 target;
+    public Vector3 targetPos;
+    public bool targeting;
+    
     private List<GameObject> parts = new List<GameObject>();
     private List<Vector3> partPositions = new List<Vector3>();
     private List<Quaternion> partRotations = new List<Quaternion>();
     private List<Vector3> partScales = new List<Vector3>();
+    
 
     //Audio States
     private bool doClick = false;
@@ -38,7 +40,6 @@ public class manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerCamera = GameObject.Find("Player Camera").GetComponent<Camera>();
         foreach (Transform child in transform)
         {
             partPositions.Add(child.position);
@@ -102,7 +103,6 @@ public class manager : MonoBehaviour
 
     IEnumerator CommandSelectedPart()
     {
-        Plane colliderPlane = new Plane((Vector3.zero - transform.position), transform.position.z);
         while (currentPart != parts.Count)
         {
             if (selected)
@@ -111,23 +111,20 @@ public class manager : MonoBehaviour
                 bool placed = false;
                 currentPart++;
                 GameObject part = parts[index];
-                Vector2 targetPos = new Vector2(partPositions[index].x, partPositions[index].y);
-                Vector2 partPos = new Vector2(part.transform.position.x, part.transform.position.y);
+                Vector3 targetPos = new Vector3(partPositions[index].x, partPositions[index].y, partPositions[index].z);
+                this.targetPos = targetPos;
+                Vector3 partPos = new Vector3(part.transform.position.x, part.transform.position.y, part.transform.position.z);
                 GameObject phantomClone = Instantiate(phantom, partPositions[index], partRotations[index]);
                 
-                while (Input.GetMouseButton(0) && selected)
+                while (targeting && selected)
                 {
                     phantomClone.transform.Rotate(Vector3.up, 45.0f * Time.deltaTime);
                     phantomClone.transform.localScale = new Vector3(math.sin(Time.frameCount/100.0f),math.sin(Time.frameCount/100.0f),math.sin(Time.frameCount/100.0f)) / 5;
                     part.transform.localScale =
                         Vector3.Lerp(part.transform.localScale, partScales[index], 3.0f * Time.deltaTime);
-                    var ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-                    if (colliderPlane.Raycast(ray, out float distance))
-                    {
-                        part.transform.position = ray.GetPoint(distance);
-                        partPos.x = ray.GetPoint(distance).x;
-                        partPos.y = ray.GetPoint(distance).y;
-                    }
+                    
+                    //We set target in the input controller
+                    part.transform.position = target;
                     
                     float dist = (targetPos - partPos).magnitude;
                     Debug.Log(dist);
@@ -142,6 +139,9 @@ public class manager : MonoBehaviour
                         doStep = true;
                     }
 
+                    partPos.x = target.x;
+                    partPos.y = target.y;
+                    partPos.z = target.z;
                     yield return null;
                 }
 
@@ -232,8 +232,8 @@ public class manager : MonoBehaviour
         if (!isAI)
         {
             avatar.ToggleInClassList("MenuButton");
-            audioPlayer.PlayOneShot(tutorial);
-            yield return new WaitForSeconds(tutorial.length);
+            //audioPlayer.PlayOneShot(tutorial);
+            //yield return new WaitForSeconds(tutorial.length);
             avatar.ToggleInClassList("MenuButton");
         }
         while (true)
@@ -292,31 +292,17 @@ public class manager : MonoBehaviour
             currentPart++;
         }
     }
-    private void Update()
-    {
-        if (!isAI)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                var ray = GameObject.Find("Player Camera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
-                {
-                    Debug.Log("Input Ray Hit");
 
-                    var selectedPart = hit.transform.gameObject;
-                    if (currentPart != parts.Count && selectedPart == parts[currentPart])
-                    {
-                        doClick = true;
-                        selected = true;
-                    }
-                    else
-                    {
-                        doError = true;
-                    }
-                }
-            }
+    public void CheckPart(GameObject selectedPart)
+    {
+        if (currentPart != parts.Count && selectedPart == parts[currentPart])
+        {
+            doClick = true;
+            selected = true;
         }
-        
+        else
+        {
+            doError = true;
+        }
     }
 }
